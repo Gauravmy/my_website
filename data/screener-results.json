@@ -1,0 +1,120 @@
+{
+ "resumes": 2484,
+ "categories": 24,
+ "runs": [
+  {
+   "expected": "INFORMATION-TECHNOLOGY",
+   "hits": 6,
+   "top": [
+    "INFORMATION-TECHNOLOGY",
+    "INFORMATION-TECHNOLOGY",
+    "INFORMATION-TECHNOLOGY",
+    "ENGINEERING",
+    "CONSULTANT",
+    "INFORMATION-TECHNOLOGY",
+    "ENGINEERING",
+    "INFORMATION-TECHNOLOGY",
+    "INFORMATION-TECHNOLOGY",
+    "CONSULTANT"
+   ],
+   "topScore": 0.357,
+   "seconds": 2.67,
+   "jd": "IT systems administrator to manage servers, networks, Windows and Linux infrastructure, help desk support, database administration, security patching and software deployment."
+  },
+  {
+   "expected": "ACCOUNTANT",
+   "hits": 9,
+   "top": [
+    "ACCOUNTANT",
+    "ACCOUNTANT",
+    "ACCOUNTANT",
+    "ACCOUNTANT",
+    "ACCOUNTANT",
+    "FINANCE",
+    "ACCOUNTANT",
+    "ACCOUNTANT",
+    "ACCOUNTANT",
+    "ACCOUNTANT"
+   ],
+   "topScore": 0.451,
+   "seconds": 2.8,
+   "jd": "Staff accountant to prepare financial statements, reconcile general ledger accounts, process accounts payable and receivable, support audits and tax filings using GAAP."
+  },
+  {
+   "expected": "HR",
+   "hits": 9,
+   "top": [
+    "HR",
+    "HR",
+    "HR",
+    "ARTS",
+    "HR",
+    "HR",
+    "HR",
+    "HR",
+    "HR",
+    "HR"
+   ],
+   "topScore": 0.456,
+   "seconds": 2.65,
+   "jd": "Human resources generalist to handle recruiting, employee relations, onboarding, benefits administration, performance management and HR policy compliance."
+  },
+  {
+   "expected": "CHEF",
+   "hits": 10,
+   "top": [
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF",
+    "CHEF"
+   ],
+   "topScore": 0.586,
+   "seconds": 2.38,
+   "jd": "Executive chef to plan menus, manage kitchen staff, control food costs, maintain food safety and sanitation standards, and prepare meals for restaurant service."
+  },
+  {
+   "expected": "TEACHER",
+   "hits": 8,
+   "top": [
+    "ARTS",
+    "TEACHER",
+    "TEACHER",
+    "TEACHER",
+    "TEACHER",
+    "ARTS",
+    "TEACHER",
+    "TEACHER",
+    "TEACHER",
+    "TEACHER"
+   ],
+   "topScore": 0.345,
+   "seconds": 2.54,
+   "jd": "Elementary school teacher to plan lessons, manage a classroom, assess student progress, communicate with parents and differentiate instruction for diverse learners."
+  },
+  {
+   "expected": "AVIATION",
+   "hits": 8,
+   "top": [
+    "AVIATION",
+    "ENGINEERING",
+    "AVIATION",
+    "AVIATION",
+    "AVIATION",
+    "AVIATION",
+    "AUTOMOBILE",
+    "AVIATION",
+    "AVIATION",
+    "AVIATION"
+   ],
+   "topScore": 0.492,
+   "seconds": 2.68,
+   "jd": "Aircraft maintenance technician to inspect, troubleshoot and repair aircraft systems, follow FAA regulations and maintenance manuals, and keep flight logs."
+  }
+ ]
+}

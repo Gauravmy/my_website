@@ -1,0 +1,766 @@
+@import "tailwindcss";
+
+/* ---------- Tokens ----------
+   Klein blue, warm bone paper, near-black ink.
+   Acid yellow appears as a highlighter on paper and as the action colour on blue. */
+:root {
+  --blue: #0a1b94;
+  --blue-2: #0d21ad;
+  --on-blue: #f2eee3;
+  --on-blue-2: #c3c8ea;
+  --line-blue: rgba(242, 238, 227, 0.22);
+  --acid: #d7f24a;
+  --on-acid: #0d1020;
+  /* Side padding clears a phone's notch in landscape. */
+  --pad: max(clamp(1.25rem, 3.2vw, 3rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --page: 150rem;
+}
+
+:root,
+:root[data-theme="light"] {
+  --bg: #f2eee3;
+  --bg-2: #e9e4d5;
+  --fg: #0d1020;
+  --muted: #55596a;
+  --line: #cdc7b5;
+  --accent: #0a1b94;
+  --on-accent: #f2eee3;
+  --mark: #d7f24a;
+  --on-mark: #0d1020;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b0e1c;
+  --bg-2: #13172b;
+  --fg: #ece8dc;
+  --muted: #a3a7bb;
+  --line: #2a2f49;
+  --accent: #d7f24a;
+  --on-accent: #0d1020;
+  --mark: #d7f24a;
+  --on-mark: #0d1020;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-blue: var(--blue);
+  --color-on-blue: var(--on-blue);
+  --color-on-blue-2: var(--on-blue-2);
+  --color-line-blue: var(--line-blue);
+  --color-acid: var(--acid);
+  --color-on-acid: var(--on-acid);
+  --font-sans: var(--font-grotesk), system-ui, sans-serif;
+  --font-serif: var(--font-news), Georgia, serif;
+  --font-mono: var(--font-code), ui-monospace, monospace;
+}
+
+/* ---------- Base ---------- */
+html {
+  /* Everything is in rem, so on QHD, ultrawide and 4K the layout grows with the screen.
+     Half of it stays fixed, so browser zoom and a large-text setting still enlarge the text there. */
+  font-size: clamp(100%, calc(50% + min(0.417vw, 0.741vh)), 200%);
+  background: var(--bg);
+  color: var(--fg);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 72px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--acid);
+  color: var(--on-acid);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.on-blue :focus-visible,
+.on-blue-clear :focus-visible {
+  outline-color: var(--acid);
+}
+
+/* ---------- Components (layered so Tailwind utilities can override) ---------- */
+@layer components {
+  /* A grid item must never stretch the page, whatever is inside it. */
+  .grid > * {
+    min-width: 0;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--page);
+    margin-inline: auto;
+    padding-inline: var(--pad);
+  }
+  .page {
+    width: 100%;
+    max-width: var(--page);
+    margin-inline: auto;
+  }
+
+  /* Comfortable to tap: 28px with a mouse, 44px on a touch screen. */
+  .tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+  }
+  .nav-btn {
+    display: inline-grid;
+    place-items: center;
+    height: 2.25rem;
+    min-width: 2.25rem;
+  }
+
+  /* Colour blocks */
+  .on-blue {
+    background: var(--blue);
+  }
+  /* -clear: same colours, but lets the WebGL stage show through. */
+  .on-blue,
+  .on-blue-clear {
+    color: var(--on-blue);
+    --fg: var(--on-blue);
+    --muted: var(--on-blue-2);
+    --line: var(--line-blue);
+    --accent: var(--acid);
+    --on-accent: var(--on-acid);
+  }
+  /* Sections that sit in front of the fixed WebGL stage. */
+  .sheet {
+    position: relative;
+    z-index: 1;
+    background: var(--bg);
+  }
+
+  /* Type scale: sizes flow between phone and desktop */
+  .t-display,
+  .t-h2,
+  .t-h3,
+  .t-h4 {
+    overflow-wrap: anywhere;
+  }
+  .t-display {
+    font-size: clamp(2.5rem, 1.5rem + 4.6vw, 6.25rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+  }
+  .t-h2 {
+    font-size: clamp(2rem, 1.35rem + 2.6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+  }
+  .t-h3 {
+    font-size: clamp(1.5rem, 1.25rem + 1.1vw, 2.35rem);
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.08;
+  }
+  .t-h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    line-height: 1.3;
+  }
+  /* Reading text is set in a newspaper serif */
+  .t-read {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 1.04rem + 0.26vw, 1.3rem);
+    line-height: 1.5;
+  }
+  .t-lead {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.12rem + 0.8vw, 1.9rem);
+    line-height: 1.28;
+    letter-spacing: -0.008em;
+  }
+  .t-stat {
+    font-size: clamp(1.75rem, 1.4rem + 1.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .t-mono {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+  }
+  .muted {
+    color: var(--muted);
+  }
+
+  /* Highlighter: a marker stroke behind the text, the way you'd mark up a paper. */
+  .mark {
+    color: var(--on-mark);
+    background-image: linear-gradient(100deg, transparent 0.25em, var(--mark) 0.3em, var(--mark) calc(100% - 0.25em), transparent calc(100% - 0.2em));
+    background-repeat: no-repeat;
+    background-size: 100% 78%;
+    background-position: 0 58%;
+    padding-inline: 0.28em;
+    margin-inline: -0.28em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* The same marker, swiped across on hover */
+  .mark-swipe {
+    background-image: linear-gradient(var(--mark), var(--mark));
+    background-repeat: no-repeat;
+    background-size: 0% 78%;
+    background-position: 0 58%;
+    transition: background-size 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .group:hover .mark-swipe,
+  .group:focus-visible .mark-swipe {
+    background-size: 100% 78%;
+    color: var(--on-mark);
+  }
+
+  /* Text link with an underline that wipes in */
+  .link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 0.2s ease;
+  }
+  .link:hover,
+  .link:focus-visible {
+    text-decoration-color: transparent;
+  }
+
+  /* Square-cut buttons */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    min-height: 2.875rem;
+    padding: 0.55rem 0.95rem;
+    font-size: 0.94rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    background: transparent;
+    transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+  }
+  .btn:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  :is(.on-blue, .on-blue-clear) .btn:hover {
+    background: var(--on-blue);
+    color: var(--blue);
+  }
+  .btn svg {
+    transition: transform 0.18s ease;
+    flex-shrink: 0;
+  }
+  .btn:hover svg {
+    transform: translate(2px, -2px);
+  }
+  .btn[data-down]:hover svg {
+    transform: translateY(2px);
+  }
+  .btn-solid {
+    background: var(--accent);
+    color: var(--on-accent);
+    border-color: var(--accent);
+  }
+  .btn-solid:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  :is(.on-blue, .on-blue-clear) .btn-solid {
+    background: var(--acid);
+    color: var(--on-acid);
+    border-color: var(--acid);
+  }
+  :is(.on-blue, .on-blue-clear) .btn-solid:hover {
+    background: var(--on-blue);
+    color: var(--blue);
+    border-color: var(--on-blue);
+  }
+  .btn-sm {
+    min-height: 2.25rem;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.84rem;
+    gap: 0.55rem;
+  }
+
+  .tag {
+    display: inline-block;
+    border: 1px solid var(--line);
+    padding: 0.1rem 0.42rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .field {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--line);
+    padding: 0.7rem 0.8rem;
+    font-size: 1rem;
+    color: var(--fg);
+    border-radius: 0;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
+  }
+  .field:focus {
+    border-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+
+  /* Screenshots: a hairline, no fake window chrome */
+  .shot {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  button.shot {
+    cursor: zoom-in;
+  }
+  button.shot:hover img {
+    transform: scale(1.018);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Off-screen blocks skip layout until they get close; the browser remembers their real size afterwards. */
+.lazy-block {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1200px;
+}
+
+/* Touch screens: fingers need bigger targets, and there's no Ctrl K to hint at. */
+@media (pointer: coarse) {
+  .tap {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .nav-btn {
+    height: 44px;
+    min-width: 44px;
+  }
+  .btn-sm {
+    min-height: 44px;
+  }
+  .kbd-hint {
+    display: none;
+  }
+}
+
+/* It would sit on top of text and buttons on phones and tablets. */
+@media (max-width: 1023px), (pointer: coarse) {
+  [data-music-toggle] {
+    display: none;
+  }
+}
+
+/* ---------- Scroll reveal (see RevealObserver.tsx) ---------- */
+html[data-js] [data-reveal]:not(.in) {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 14px));
+}
+[data-reveal] {
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0s),
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) var(--reveal-delay, 0s);
+}
+/* Images wipe open from the top rather than fading. */
+html[data-js] [data-reveal="wipe"]:not(.in) {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+}
+[data-reveal="wipe"] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.9s cubic-bezier(0.7, 0, 0.2, 1) var(--reveal-delay, 0s);
+}
+
+/* ---------- WebGL stage and the opening ---------- */
+.gl-stage {
+  position: fixed;
+  inset: 0;
+  height: 100lvh;
+  z-index: 0;
+  background: var(--blue);
+  overflow: hidden;
+}
+.gl-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+html[data-gl="off"] .gl-stage canvas {
+  display: none;
+}
+/* With no scene behind them, these sections carry their own colour. */
+html[data-gl="off"] #top,
+html[data-gl="off"] #process {
+  background: var(--blue);
+}
+html[data-gl="off"] #gl-readout {
+  display: none;
+}
+
+/* The hero's layout, worked out by screen shape rather than width alone. */
+.hero-inner {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: var(--page);
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: 4.5rem var(--pad) max(1.25rem, env(safe-area-inset-bottom));
+}
+/* Sized from the hero's own width, so the name always fills it edge to edge; never taller than a third of the screen. */
+.hero-name {
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  white-space: nowrap;
+  font-size: min(calc((100vw - 2 * var(--pad)) / 7.3), 32vh);
+  font-size: min(calc(100cqw / 7.3), 32vh);
+  margin-left: -0.035em;
+}
+.hero-name .line {
+  display: inline;
+}
+.hero-grid {
+  display: grid;
+  gap: 1.1rem 2rem;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "lead" "actions" "facts";
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line-blue);
+}
+.hero-lead {
+  grid-area: lead;
+}
+.hero-facts {
+  grid-area: facts;
+}
+/* The resume buttons share a row only when both really fit, whatever the text size. */
+.hero-actions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-content: flex-start;
+}
+.hero-actions .btn {
+  flex: 1 1 10rem;
+}
+.hero-actions .hero-fit {
+  flex-basis: 100%;
+}
+/* Any screen held upright, tablets included: two lines for the name. */
+@media (orientation: portrait) {
+  .hero-name {
+    font-size: min(calc((100vw - 2 * var(--pad)) / 3.7), 22vh);
+    font-size: min(calc(100cqw / 3.7), 22vh);
+    line-height: 0.9;
+  }
+  .hero-name .line {
+    display: block;
+  }
+}
+@media (min-width: 375px) {
+  .hero-actions .btn {
+    padding-inline: 0.65rem;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+  }
+}
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas: "lead lead" "facts actions";
+  }
+  .hero-actions .btn {
+    flex-basis: 100%;
+    padding-inline: 0.95rem;
+    gap: 0.9rem;
+    font-size: 0.94rem;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 5fr 4fr 3fr;
+    grid-template-areas: "lead facts actions";
+  }
+}
+/* Phones on their side and very short windows: use the width, keep the buttons in view. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero-inner {
+    justify-content: flex-start;
+    padding-top: 4rem;
+  }
+  #gl-readout {
+    margin-bottom: 0.4rem;
+  }
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    grid-template-areas: "lead actions" "facts facts";
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    gap: 0.75rem 1.25rem;
+  }
+  .hero-lead {
+    font-size: 1.08rem;
+  }
+  .hero-actions .btn {
+    flex-basis: 10rem;
+    padding-inline: 0.6rem;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+  }
+  .hero-actions .hero-fit {
+    flex-basis: 100%;
+  }
+}
+@media (max-height: 520px) and (orientation: landscape) and (max-width: 720px) {
+  .hero-actions .btn {
+    flex-basis: 100%;
+  }
+}
+/* With WebGL the heading is a faint ghost: the target the particles train toward, and what's left under them. */
+html[data-gl="boot"] .hero-name,
+html[data-gl="ready"] .hero-name {
+  color: rgba(242, 238, 227, 0.17);
+}
+
+/* First visit: everything but the training readout waits for the model to converge. */
+html[data-gl="boot"] .hero-rest,
+html[data-gl="boot"] .site-nav {
+  opacity: 0;
+  pointer-events: none;
+  animation: hero-failsafe 0.6s ease 4s forwards;
+}
+.hero-rest > *,
+.site-nav {
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+html[data-gl="boot"] .hero-rest > * {
+  transform: translateY(14px);
+}
+@keyframes hero-failsafe {
+  to {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.readout-bar {
+  height: 1px;
+  background: var(--line-blue);
+  position: relative;
+  overflow: hidden;
+}
+.readout-bar i {
+  position: absolute;
+  inset: 0;
+  transform-origin: left;
+  background: var(--acid);
+  transform: scaleX(var(--p, 0));
+}
+
+/* ---------- Process section: fixed scene, scrolling text ---------- */
+.process-step {
+  min-height: 92lvh;
+  display: flex;
+  align-items: center;
+}
+.process-step > div,
+.process-head > * {
+  background: var(--blue);
+}
+.gl-region {
+  position: sticky;
+  top: 12lvh;
+  height: 76lvh;
+}
+.process-fallback {
+  display: none;
+}
+html:not([data-gl]) .process-fallback,
+html[data-gl="off"] .process-fallback {
+  display: block;
+}
+@media (max-width: 1023px) {
+  #process {
+    --fig: 38lvh;
+  }
+  /* The space above each card is what lets the figure be seen in full before the card slides over it. */
+  .process-step {
+    min-height: 88lvh;
+    align-items: flex-end;
+    padding-top: calc(4.5rem + var(--fig) + 1rem);
+    padding-bottom: 6lvh;
+  }
+  .process-step > div {
+    background: var(--blue);
+    outline: 1px solid var(--line-blue);
+    padding: 1.1rem;
+  }
+  .gl-region {
+    position: fixed;
+    top: 4.5rem;
+    left: var(--pad);
+    right: var(--pad);
+    height: var(--fig);
+  }
+}
+@media (max-width: 1023px) and (max-height: 700px) {
+  #process {
+    --fig: 30lvh;
+  }
+}
+/* Phone on its side: text left, figure right, instead of stacked. */
+@media (max-width: 1023px) and (orientation: landscape) {
+  .process-step {
+    min-height: 100lvh;
+    align-items: center;
+    padding-block: 4.5rem 1rem;
+  }
+  .process-step > div {
+    width: 50%;
+    padding: 0;
+    outline: none;
+  }
+  .process-step .t-read {
+    font-size: 1rem;
+  }
+  .gl-region {
+    top: 4.25rem;
+    left: 54%;
+    height: calc(100lvh - 5.25rem);
+  }
+}
+/* No scene to make room for: the cards just stack. */
+@media (max-width: 1023px) {
+  html:not([data-gl]) .process-step,
+  html[data-gl="off"] .process-step {
+    min-height: 0;
+    padding-block: 0.75rem;
+  }
+  html:not([data-gl]) .process-step > div,
+  html[data-gl="off"] .process-step > div {
+    width: auto;
+    padding: 1.1rem;
+    outline: 1px solid var(--line-blue);
+  }
+  html:not([data-gl]) .gl-region,
+  html[data-gl="off"] .gl-region {
+    display: none;
+  }
+}
+
+/* ---------- Small animations ---------- */
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.eq-bar {
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite;
+}
+
+/* ---------- Konami "terminal mode" ---------- */
+html[data-konami="on"] body,
+html[data-konami="on"] .t-read,
+html[data-konami="on"] .t-lead {
+  font-family: var(--font-mono) !important;
+}
+html[data-konami="on"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, 0.14) 2px 3px);
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Native dialog ---------- */
+dialog::backdrop {
+  background: rgba(6, 9, 30, 0.82);
+}
+dialog {
+  color: var(--fg);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html[data-js] [data-reveal]:not(.in) {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+}
